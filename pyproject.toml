@@ -37,7 +37,7 @@ dev = [
 ]
 
 [project.scripts]
-compressbench = "compressbench.__main__:app"
+compressbench = "compressbench.cli:app"
 
 [build-system]
 requires = ["setuptools>=61", "wheel"]
