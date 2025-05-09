@@ -30,15 +30,20 @@ pip install compressbench
 compressbench benchmark tests/data/test_data.parquet --a gzip -a snappy --output-format text
 ```
 
+```
 Algorithm: gzip
-Compression ratio: 2.91
-Compression time: 0.43
-Decompression time: 0.12s
-
+Compression ratio: 2.48
+Compression time: 0.00s
+Decompression time: 0.00s
+Input file: tests/data/test_data.parquet
+----------------------------------------
 Algorithm: snappy
-Compression ratio: 1.67
-Compression time: 0.12
-Decompression time: 0.05s
+Compression ratio: 1.89
+Compression time: 0.00s
+Decompression time: 0.00s
+Input file: tests/data/test_data.parquet
+----------------------------------------
+```
 
 ## CLI Options
 input.parquet   Path to the Parquet file to benchmark.
