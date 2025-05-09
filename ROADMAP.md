@@ -1,23 +1,5 @@
 # ROADMAP.md
 
-## v0.1.0
-
-- CLI endpoints:
-    - Accept Parquet input.
-    - Select compression algorithm(s).
-- Output:
-    - Compression ratio.
-    - Compression time.
-    - Decompression time.
-- Supported algorithms:
-    - gzip
-    - snappy
-- Output formats:
-    - --output-format text (default)
-    - --output-format json
-    - --output-format csv
-- Unit tests with pytest.
-
 ## v0.2.0
 
 - Add LZ4 and zstd support.
