@@ -5,17 +5,16 @@ import typer
 from compressbench import __version__
 from compressbench.benchmark import run_benchmarks
 from compressbench.compressors.gzip import GzipCompressor
+from compressbench.compressors.lz4 import Lz4Compressor
 from compressbench.compressors.snappy import SnappyCompressor
+from compressbench.compressors.zstd import ZstdCompressor
 from compressbench.results import output_results
 
 app = typer.Typer(
     help="Benchmark compression algorithms on Parquet datasets.",
 )
 
-ALGORITHM_MAP = {
-    "gzip": GzipCompressor,
-    "snappy": SnappyCompressor,
-}
+ALGORITHM_MAP = {"gzip": GzipCompressor, "snappy": SnappyCompressor, "lz4": Lz4Compressor, "zstd": ZstdCompressor}
 
 
 @app.command()
@@ -25,7 +24,7 @@ def benchmark(
         None,
         "--algorithms",
         "-a",
-        help="Compression algorithms to test (gzip, snappy).",
+        help="Compression algorithms to test (gzip, snappy, lz4, zstd).",
     ),
     output_format: str = typer.Option("text", "--output-format", "-o", help="Output format: text, json, csv."),
 ):
@@ -37,7 +36,7 @@ def benchmark(
         raise typer.Exit(code=1)
 
     if not algorithms:
-        algorithms = ["gzip", "snappy"]
+        algorithms = ["gzip", "snappy", "lz4", "zstd"]
 
     compressors = []
     for algo in algorithms:
