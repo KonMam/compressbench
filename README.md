@@ -4,7 +4,7 @@
 
 ## Why
 
-Compression settings affect performance, storage cost, and latency — but most data engineers inherit defaults without testing.  
+Compression settings affect performance, storage cost, and latency — but most data engineers inherit defaults without testing.
 `compressbench` lets you benchmark compression ratio, compression speed, and decompression speed across algorithms using your own Parquet files.
 
 ## Features
@@ -25,18 +25,19 @@ pip install compressbench
 ```
 
 ## Usage
-compressbench input.parquet --algorithms gzip snappy
-If --algorithms is omitted, runs benchmarks for all available algorithms.
 
-Example Output
+```bash
+compressbench benchmark tests/data/test_data.parquet --a gzip -a snappy --output-format text
+```
+
 Algorithm: gzip
 Compression ratio: 2.91
-Compression time: 0.43s
+Compression time: 0.43
 Decompression time: 0.12s
 
 Algorithm: snappy
 Compression ratio: 1.67
-Compression time: 0.12s
+Compression time: 0.12
 Decompression time: 0.05s
 
 ## CLI Options
