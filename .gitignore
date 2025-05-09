@@ -5,3 +5,4 @@ NOTES.md
 *.parquet
 *.egg-info/
 dist
+.DS_Store

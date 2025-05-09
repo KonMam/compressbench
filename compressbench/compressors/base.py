@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from pathlib import Path
 
 from compressbench.types import BenchmarkResult
 
@@ -20,10 +21,7 @@ class Compressor(ABC):
 
         import pyarrow.parquet as pq
 
-        table = pq.read_table(input_file)
-        data = table.to_pandas().to_parquet(index=False)
-
-        original_size = len(data)
+        original_size = Path(input_file).stat().st_size
 
         start = time.perf_counter()
         compressed_data = self.compress(input_file)
@@ -32,11 +30,13 @@ class Compressor(ABC):
         compressed_size = len(compressed_data)
 
         start = time.perf_counter()
-        decompressed_data = self.decompress(compressed_data)  # remove unused variable later?
+        self.decompress(compressed_data)
         decompression_time = time.perf_counter() - start
 
         return BenchmarkResult(
             algorithm=self.name,
+            original_size=original_size,
+            compressed_size=compressed_size,
             compression_ratio=original_size / compressed_size if compressed_size > 0 else 0,
             compression_time=compression_time,
             decompression_time=decompression_time,
