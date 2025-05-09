@@ -45,11 +45,6 @@ Input file: tests/data/test_data.parquet
 ----------------------------------------
 ```
 
-## CLI Options
-input.parquet   Path to the Parquet file to benchmark.
---algorithms    List of algorithms to test (gzip, snappy).
---level         Not supported in v0.1.0. Reserved for future versions.
-
 ## Roadmap
 See ROADMAP.md for planned features.
 
