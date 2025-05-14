@@ -9,4 +9,6 @@ class BenchmarkResult:
     compression_ratio: float
     compression_time: float
     decompression_time: float
+    compression_throughput: float
+    decompression_throughput: float
     input_file: str

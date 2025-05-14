@@ -15,6 +15,8 @@ def output_results(results: list[BenchmarkResult], output_format: str = "text"):
             print(f"Compression ratio: {r.compression_ratio:.2f}")
             print(f"Compression time: {r.compression_time:.2f}s")
             print(f"Decompression time: {r.decompression_time:.2f}s")
+            print(f"Compression throughput: {r.compression_throughput:.2f}MiB/s")
+            print(f"Decompression throughput: {r.decompression_throughput:.2f}MiB/s")
             print(f"Input file: {r.input_file}")
             print("-" * 40)
 
@@ -32,6 +34,8 @@ def output_results(results: list[BenchmarkResult], output_format: str = "text"):
                 "compression_ratio",
                 "compression_time",
                 "decompression_time",
+                "compression_throughput",
+                "decompression_throughput",
                 "input_file",
             ]
         )
@@ -44,6 +48,8 @@ def output_results(results: list[BenchmarkResult], output_format: str = "text"):
                     f"{r.compression_ratio:.2f}",
                     f"{r.compression_time:.2f}",
                     f"{r.decompression_time:.2f}",
+                    f"{r.compression_throughput:.2f}",
+                    f"{r.decompression_throughput:.2f}",
                     r.input_file,
                 ]
             )
