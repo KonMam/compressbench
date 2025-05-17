@@ -1,5 +1,5 @@
 import pyarrow.parquet as pq
 
-table = pq.read_table("tests/data/fhvhv_tripdata_2024-03.parquet")
+table = pq.read_table("tests/data/benchmark_5gb.parquet")
 
-pq.write_table(table, "tests/data/fhvhv_tripdata_2024-03_uncompressed.parquet", compression=None)
+pq.write_table(table, "tests/data/benchmark_5gb_uncompressed.parquet", compression=None)
