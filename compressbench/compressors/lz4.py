@@ -1,18 +1,18 @@
-import lz4.frame
-
+import io
+import pyarrow.parquet as pq
 from compressbench.compressors.base import Compressor
-
 
 class Lz4Compressor(Compressor):
     name = "lz4"
 
     def compress(self, input_file: str) -> bytes:
-        import pyarrow.parquet as pq
-
         table = pq.read_table(input_file)
-        data = table.to_pandas().to_parquet(index=False)
-
-        return lz4.frame.compress(data)
+        buffer = io.BytesIO()
+        pq.write_table(table, buffer, compression="lz4")
+        return buffer.getvalue()
 
     def decompress(self, compressed_data: bytes) -> bytes:
-        return lz4.frame.decompress(compressed_data)
+        table = pq.read_table(io.BytesIO(compressed_data))
+        out_buffer = io.BytesIO()
+        pq.write_table(table, out_buffer, compression=None)
+        return out_buffer.getvalue()
