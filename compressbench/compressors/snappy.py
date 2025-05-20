@@ -1,18 +1,18 @@
-import snappy
-
+import io
+import pyarrow.parquet as pq
 from compressbench.compressors.base import Compressor
-
 
 class SnappyCompressor(Compressor):
     name = "snappy"
 
     def compress(self, input_file: str) -> bytes:
-        import pyarrow.parquet as pq
-
         table = pq.read_table(input_file)
-        data = table.to_pandas().to_parquet(index=False)
-
-        return snappy.compress(data)
+        buffer = io.BytesIO()
+        pq.write_table(table, buffer, compression="snappy")
+        return buffer.getvalue()
 
     def decompress(self, compressed_data: bytes) -> bytes:
-        return snappy.decompress(compressed_data)
+        table = pq.read_table(io.BytesIO(compressed_data))
+        out_buffer = io.BytesIO()
+        pq.write_table(table, out_buffer, compression=None)
+        return out_buffer.getvalue()
