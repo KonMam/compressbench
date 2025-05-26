@@ -2,7 +2,6 @@
 
 ## v0.2.0
 
-- Add LZ4 and zstd support.
 - Output summary table.
 - Start adding integration tests.
 - Optional: analysis notebook (`analysis.ipynb`) for saved results (CSV/JSON) visualization.

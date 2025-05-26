@@ -1,18 +1,18 @@
-import gzip
-
+import io
+import pyarrow.parquet as pq
 from compressbench.compressors.base import Compressor
-
 
 class GzipCompressor(Compressor):
     name = "gzip"
 
     def compress(self, input_file: str) -> bytes:
-        import pyarrow.parquet as pq
-
         table = pq.read_table(input_file)
-        data = table.to_pandas().to_parquet(index=False)
-
-        return gzip.compress(data)
+        buffer = io.BytesIO()
+        pq.write_table(table, buffer, compression="gzip")
+        return buffer.getvalue()
 
     def decompress(self, compressed_data: bytes) -> bytes:
-        return gzip.decompress(compressed_data)
+        table = pq.read_table(io.BytesIO(compressed_data))
+        out_buffer = io.BytesIO()
+        pq.write_table(table, out_buffer, compression=None)
+        return out_buffer.getvalue()

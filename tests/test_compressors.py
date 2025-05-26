@@ -4,7 +4,9 @@ import pytest
 
 from compressbench.benchmark import run_benchmarks
 from compressbench.compressors.gzip import GzipCompressor
+from compressbench.compressors.lz4 import Lz4Compressor
 from compressbench.compressors.snappy import SnappyCompressor
+from compressbench.compressors.zstd import ZstdCompressor
 from compressbench.types import BenchmarkResult
 
 TEST_FILE = Path("tests/data/test_data.parquet")
@@ -53,12 +55,43 @@ def test_snappy_compression(test_parquet_file):
     print(result)
 
 
+def test_lz4_compression(test_parquet_file):
+    """Test gzip compressor produces valid benchmark results."""
+    compressor = Lz4Compressor()
+    results = run_benchmarks(test_parquet_file, [compressor])
+    result = results[0]
+
+    assert isinstance(result, BenchmarkResult)
+    assert result.compression_ratio > 0
+    assert result.compression_time > 0
+    assert result.decompression_time > 0
+
+    print("\nLz4 Benchmark Result:")
+    print(result)
+
+
+def test_zstd_compression(test_parquet_file):
+    """Test snappy compressor produces valid benchmark results."""
+
+    compressor = ZstdCompressor()
+    results = run_benchmarks(test_parquet_file, [compressor])
+    result = results[0]
+
+    assert isinstance(result, BenchmarkResult)
+    assert result.compression_ratio > 0
+    assert result.compression_time > 0
+    assert result.decompression_time > 0
+
+    print("\nZstd Benchmark Result:")
+    print(result)
+
+
 def test_multiple_compressors(test_parquet_file):
     """Test multiple compressors return valid benchmark results."""
-    compressors = [GzipCompressor(), SnappyCompressor()]
+    compressors = [GzipCompressor(), SnappyCompressor(), Lz4Compressor(), ZstdCompressor()]
     results = run_benchmarks(test_parquet_file, compressors)
 
-    assert len(results) == 2
+    assert len(results) == 4
     for result in results:
         assert isinstance(result, BenchmarkResult)
         assert result.compression_ratio > 0
